@@ -110,6 +110,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid
 </div><div class="actions"><button type="button" id="cancelTrade">取消</button><button class="primary" type="submit">保存交易</button></div></form></div></div>
 <div class="toast" id="toast"></div>
 <script>
+{
 const $=id=>document.getElementById(id);
 const STORAGE='trading-journal-v1';
 let trades=JSON.parse(localStorage.getItem(STORAGE)||'[]');
@@ -151,6 +152,7 @@ $('logoutCloud').onclick=async()=>{if(supabase)await supabase.auth.signOut();sup
 window.addEventListener('resize',()=>drawChart([Number(prefs.startingBalance)||0,...calc().curve.slice(1)]));
 const sdk=document.createElement('script');sdk.src='./supabase.js';sdk.onload=()=>{window.supabaseLib=window.supabase;loadSupabase()};sdk.onerror=()=>{$('cloudState').textContent='Supabase SDK 加载失败。在线云同步需要网络连接。'};document.head.appendChild(sdk);
 render();
+}
 </script>
 </body>
 </html>
