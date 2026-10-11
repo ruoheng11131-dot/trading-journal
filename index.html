@@ -149,7 +149,7 @@ async function syncFromCloud(){if(!supabase||!cloudUser)return;try{const r=await
 $('syncCloud').onclick=async()=>{if(!supabase){await loadSupabase()}if(!supabase){cloudMsg('请先连接并登录云端。');return}const u=await supabase.auth.getUser();cloudUser=u.data.user;if(!cloudUser){cloudMsg('请先登录。');return}await syncFromCloud()};
 $('logoutCloud').onclick=async()=>{if(supabase)await supabase.auth.signOut();supabase=null;cloudUser=null;cloudMsg('已退出云端。当前设备的本地记录仍保留。');$('cloudNotice').textContent='当前为本地预览模式。配置 Supabase 后即可启用账号登录与云端同步；本地记录不会自动上传。'};
 window.addEventListener('resize',()=>drawChart([Number(prefs.startingBalance)||0,...calc().curve.slice(1)]));
-const sdk=document.createElement('script');sdk.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';sdk.onload=()=>{window.supabaseLib=window.supabase;sdk.remove();loadSupabase()};sdk.onerror=()=>{$('cloudState').textContent='Supabase SDK 加载失败。在线云同步需要网络连接。'};document.head.appendChild(sdk);
+const sdk=document.createElement('script');sdk.src='./supabase.js';sdk.onload=()=>{window.supabaseLib=window.supabase;loadSupabase()};sdk.onerror=()=>{$('cloudState').textContent='Supabase SDK 加载失败。在线云同步需要网络连接。'};document.head.appendChild(sdk);
 render();
 </script>
 </body>
