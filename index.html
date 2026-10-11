@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071b12">
+<title>交易日志 · 风控工作台</title>
+<style>
+:root{--bg:#080b10;--panel:#11161e;--panel2:#151b24;--line:#252e3a;--muted:#8b9bb2;--text:#e8eef7;--green:#19d3a2;--red:#ff4f70;--blue:#6194ff;--gold:#f5c66b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,"Microsoft YaHei",system-ui,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#18212c;color:var(--text);border-radius:9px;padding:9px 13px}button:hover{border-color:#4a6586}button.primary{background:#5a8df3;border-color:#5a8df3;color:#fff;font-weight:650}button.ghost{background:transparent}button.danger{color:var(--red)}
+.app{display:grid;grid-template-columns:68px 1fr;min-height:100vh}.rail{background:#073a23;border-right:1px solid #175238;display:flex;align-items:center;flex-direction:column;gap:14px;padding:17px 8px;position:sticky;top:0;height:100vh}.brand{font-size:21px;font-weight:800;color:#d9fff0;margin-bottom:18px}.rail button{width:48px;height:45px;padding:0;background:transparent;border-color:transparent;font-size:19px}.rail button.active{background:#135a3b;border-color:#24784f}.main{padding:24px;max-width:1700px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}.eyebrow{color:var(--muted);font-size:12px}.title{font-size:23px;font-weight:750;margin:0}.top-actions{display:flex;gap:9px;flex-wrap:wrap}.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow:auto}.tab{border:0;border-radius:0;background:transparent;color:var(--muted);padding:12px 14px;white-space:nowrap;border-bottom:2px solid transparent}.tab.active{color:#fff;border-bottom-color:var(--blue)}.view{display:none}.view.active{display:block}.grid{display:grid;gap:12px}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.metric,.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0}.metric .label,.card-title{color:var(--muted);font-size:12px}.metric .value{font-size:25px;font-weight:760;margin-top:5px;letter-spacing:-.4px}.positive{color:var(--green)!important}.negative{color:var(--red)!important}.blue{color:var(--blue)}.middle{grid-template-columns:minmax(245px,.72fr) minmax(0,1.7fr);margin-bottom:16px}.riskline{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #202832}.riskline:last-child{border:0}.chart{height:255px;width:100%;display:block;margin-top:8px}.lower-metrics{grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:16px}.lower-metrics .metric{padding:14px}.lower-metrics .value{font-size:21px}.table-wrap{overflow:auto;margin-top:12px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #222b36;white-space:nowrap}th{color:var(--muted);font-weight:500;font-size:12px}td{font-size:13px}.tag{display:inline-block;padding:3px 8px;border-radius:20px;background:#163b32;color:var(--green);font-size:11px}.tag.red{background:#3d202a;color:var(--red)}.empty{padding:36px;text-align:center;color:var(--muted)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.section-head h2{font-size:18px;margin:0}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters input,.filters select{max-width:180px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-size:12px;color:var(--muted)}input,select,textarea{background:#0c1118;border:1px solid #2a3543;border-radius:8px;padding:10px 11px;color:var(--text);width:100%;min-width:0}textarea{min-height:90px;resize:vertical}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.span2{grid-column:span 2}.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}.modal.open{display:flex}.dialog{width:min(760px,100%);max-height:92vh;overflow:auto;background:#111720;border:1px solid #354253;border-radius:16px;padding:22px}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog h2{margin:0;font-size:19px}.actions{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}.notice{padding:12px 14px;border:1px solid #3c4d63;background:#121c29;border-radius:10px;color:#b7c8df;margin-bottom:16px}.settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.small{font-size:12px;color:var(--muted)}.stat-bars{display:grid;gap:12px;margin-top:18px}.barrow{display:grid;grid-template-columns:110px 1fr 70px;align-items:center;gap:10px}.bartrack{height:8px;background:#252e3a;border-radius:9px;overflow:hidden}.barfill{height:100%;background:var(--blue);border-radius:9px}.mobile-nav{display:none}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a2938;border:1px solid #43566d;border-radius:10px;padding:11px 16px;z-index:30;display:none}
+@media(max-width:900px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.middle{grid-template-columns:1fr}.lower-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.main{padding:18px}.metric .value{font-size:22px}}
+@media(max-width:600px){.app{display:block;padding-bottom:70px}.rail{display:none}.main{padding:14px}.top{align-items:flex-start}.title{font-size:20px}.top-actions button{padding:8px 10px}.top-actions .hide-mobile{display:none}.tabs{gap:0;margin-left:-2px;margin-right:-2px}.tab{padding:11px 12px}.metrics{gap:8px}.metric,.card{padding:13px;border-radius:12px}.metric .value{font-size:20px}.lower-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lower-metrics .value{font-size:19px}.chart{height:210px}.form-grid,.settings-grid{grid-template-columns:1fr}.span2{grid-column:auto}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:8;background:#0e151e;border-top:1px solid var(--line);justify-content:space-around;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}.mobile-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:0;font-size:11px;color:var(--muted);padding:5px}.mobile-nav button.active{color:var(--green)}.mobile-nav span{font-size:18px}.section-head{align-items:flex-start}.barrow{grid-template-columns:80px 1fr 55px}.dialog{padding:16px}.actions button{flex:1}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">▱</div>
+    <button class="active" data-view="home" title="总览">◫</button>
+    <button data-view="trades" title="交易记录">☷</button>
+    <button data-view="analytics" title="数据分析">▥</button>
+    <button data-view="settings" title="设置">⚙</button>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div><div class="eyebrow">TRADING JOURNAL / 风控工作台</div><h1 class="title">我的交易账户</h1><div class="small">USD · NQ / ES / GC / BTC</div></div>
+      <div class="top-actions"><button class="ghost hide-mobile" id="exportBtn">导出 CSV</button><button class="primary" id="newTradeBtn">＋ 新增交易</button></div>
+    </header>
+    <nav class="tabs">
+      <button class="tab active" data-view="home">◫ 首页</button><button class="tab" data-view="trades">☷ 交易记录</button><button class="tab" data-view="analytics">▥ 数据分析</button><button class="tab" data-view="settings">⚙ 设置与同步</button>
+    </nav>
+    <div id="cloudNotice" class="notice">当前为本地预览模式。配置 Supabase 后即可启用账号登录与云端同步；本地记录不会自动上传。</div>
+    <section id="view-home" class="view active">
+      <div class="grid metrics">
+        <div class="metric"><div class="label">账户权益（按记录估算）</div><div class="value" id="equity">$1,000.00</div></div>
+        <div class="metric"><div class="label">累计净盈亏</div><div class="value positive" id="totalPnl">$0.00</div></div>
+        <div class="metric"><div class="label">收益率</div><div class="value positive" id="returnPct">0.0%</div></div>
+        <div class="metric"><div class="label">最大回撤（记录内）</div><div class="value negative" id="maxDd">$0.00</div></div>
+      </div>
+      <div class="grid middle">
+        <div class="card"><div class="section-head"><div class="card-title">今日风控</div><span class="tag" id="riskStatus">待记录</span></div>
+          <div style="display:flex;align-items:center;gap:17px;margin:14px 0 22px"><div style="width:76px;height:142px;border:1px solid #354254;border-radius:12px;padding:5px;display:flex;align-items:flex-end"><div id="riskBar" style="height:100%;width:100%;background:#1eae8c;border-radius:7px"></div></div><div><div class="value positive" style="font-size:29px" id="riskRemainPct">100%</div><div class="small">今日剩余风险额度</div><strong id="riskRemain">$55.00</strong></div></div>
+          <div class="riskline"><span class="small">今日净盈亏</span><strong id="todayPnl">$0.00</strong></div><div class="riskline"><span class="small">每日最大亏损</span><strong id="dailyLimit">$55.00</strong></div><div class="riskline"><span class="small">已使用风险额度</span><strong id="riskUsed">$0.00</strong></div>
+        </div>
+        <div class="card"><div class="card-title">账户权益曲线</div><canvas id="equityChart" class="chart" aria-label="账户权益曲线"></canvas><div class="small">根据已记录交易按时间累计；未录入的交易不包含在内。</div></div>
+      </div>
+      <div class="grid lower-metrics">
+        <div class="metric"><div class="label">总交易次数</div><div class="value" id="tradeCount">0</div></div>
+        <div class="metric"><div class="label">胜率</div><div class="value" id="winRate">0.0%</div></div>
+        <div class="metric"><div class="label">平均盈利</div><div class="value positive" id="avgWin">$0.00</div></div>
+        <div class="metric"><div class="label">平均亏损</div><div class="value negative" id="avgLoss">$0.00</div></div>
+        <div class="metric"><div class="label">Profit Factor</div><div class="value" id="pf">—</div></div>
+        <div class="metric"><div class="label">当前连胜</div><div class="value positive" id="streak">0</div></div>
+      </div>
+      <div class="card"><div class="section-head"><h2>最近交易</h2><button data-view="trades">查看全部 →</button></div><div id="recentTable" class="table-wrap"></div></div>
+    </section>
+    <section id="view-trades" class="view">
+      <div class="section-head"><h2>交易记录</h2><div class="filters"><input id="searchTrades" placeholder="搜索品种 / 标签" /><select id="filterSymbol"><option value="">全部品种</option><option>NQ</option><option>ES</option><option>GC</option><option>BTC</option><option>其他</option></select><button class="primary" id="newTradeBtn2">＋ 新增交易</button></div></div>
+      <div class="card"><div id="tradesTable" class="table-wrap"></div></div>
+    </section>
+    <section id="view-analytics" class="view">
+      <div class="section-head"><h2>数据分析</h2><span class="small">只分析手动录入的数据</span></div>
+      <div class="grid metrics">
+        <div class="metric"><div class="label">净盈亏</div><div class="value" id="aPnl">$0.00</div></div><div class="metric"><div class="label">平均每笔</div><div class="value" id="aAvg">$0.00</div></div><div class="metric"><div class="label">盈亏比（均值）</div><div class="value" id="aRatio">—</div></div><div class="metric"><div class="label">交易纪律自评</div><div class="value" id="aDiscipline">—</div></div>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px">
+        <div class="card"><h3 style="margin:0">按品种净盈亏</h3><div id="symbolBars" class="stat-bars"></div></div>
+        <div class="card"><h3 style="margin:0">按策略净盈亏</h3><div id="strategyBars" class="stat-bars"></div></div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3 style="margin:0">复盘摘要</h3><div id="reviewSummary" style="margin-top:12px;color:var(--muted)">录入交易并填写复盘后，这里会汇总常见标签和纪律执行情况。</div></div>
+    </section>
+    <section id="view-settings" class="view">
+      <div class="section-head"><h2>设置与云端同步</h2></div>
+      <div class="notice">云同步需要你自己的 Supabase 项目。请勿将 service_role 密钥放进前端；这里只使用 Project URL 和 anon/publishable key，并通过 RLS 限制数据访问。</div>
+      <div class="grid settings-grid">
+        <div class="card"><h3 style="margin-top:0">账户与风控</h3>
+          <div class="field"><label>初始账户资金（USD）</label><input id="startingBalance" type="number" min="0" step="0.01" value="1000"></div>
+          <div class="field"><label>每日最大亏损（USD）</label><input id="dailyRiskLimit" type="number" min="0" step="1" value="55"></div>
+          <button class="primary" id="savePrefs">保存设置</button>
+        </div>
+        <div class="card"><h3 style="margin-top:0">Supabase 云同步</h3>
+          <div class="field"><label>Project URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co"></div>
+          <div class="field"><label>Publishable / anon key</label><input id="sbKey" placeholder="sb_publishable_... 或 anon key"></div>
+          <div class="field"><label>登录邮箱</label><input id="sbEmail" type="email" placeholder="you@example.com"></div>
+          <div class="field"><label>登录密码</label><input id="sbPassword" type="password" placeholder="Supabase Auth 密码"></div>
+          <div class="actions" style="justify-content:flex-start"><button class="primary" id="connectCloud">连接 / 登录</button><button id="syncCloud">同步数据</button><button id="logoutCloud">退出登录</button></div>
+          <p class="small" id="cloudState">未连接云端。</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3 style="margin-top:0">数据备份</h3><p class="small">可导出 CSV 作为备份。浏览器本地模式下数据保存在当前浏览器；清理浏览器数据可能导致本地记录丢失。正式使用云同步前，先导出备份。</p><button id="exportBtn2">导出 CSV</button><button id="clearLocal" class="danger" style="margin-left:8px">清空本地数据</button></div>
+    </section>
+  </main>
+</div>
+<nav class="mobile-nav"><button class="active" data-view="home"><span>◫</span>总览</button><button data-view="trades"><span>☷</span>交易</button><button data-view="analytics"><span>▥</span>分析</button><button data-view="settings"><span>⚙</span>设置</button></nav>
+<div class="modal" id="tradeModal"><div class="dialog"><div class="dialog-head"><h2 id="modalTitle">新增交易</h2><button id="closeModal">✕</button></div>
+<form id="tradeForm"><input type="hidden" id="tradeId"><div class="form-grid">
+<div class="field"><label>交易日期 *</label><input id="tradeDate" type="date" required></div><div class="field"><label>交易时间</label><input id="tradeTime" type="time" value="09:30"></div>
+<div class="field"><label>品种 *</label><select id="symbol"><option>NQ</option><option>ES</option><option>GC</option><option>BTC</option><option>其他</option></select></div><div class="field"><label>方向 *</label><select id="direction"><option value="多">多</option><option value="空">空</option></select></div>
+<div class="field"><label>入场价格</label><input id="entryPrice" type="number" step="any" placeholder="0.00"></div><div class="field"><label>出场价格</label><input id="exitPrice" type="number" step="any" placeholder="0.00"></div>
+<div class="field"><label>手数 / 数量</label><input id="quantity" type="number" step="any" min="0" value="1"></div><div class="field"><label>实际净盈亏（USD） *</label><input id="pnl" type="number" step="0.01" required placeholder="盈利填正数，亏损填负数"></div>
+<div class="field"><label>止损价格</label><input id="stopLoss" type="number" step="any"></div><div class="field"><label>止盈价格</label><input id="takeProfit" type="number" step="any"></div>
+<div class="field"><label>策略</label><select id="strategy"><option>订单流</option><option>FVG</option><option>OB</option><option>突破</option><option>回调</option><option>趋势跟随</option><option>其他</option></select></div><div class="field"><label>交易时段</label><select id="session"><option>美盘</option><option>欧盘</option><option>亚洲盘</option><option>盘前</option><option>其他</option></select></div>
+<div class="field"><label>风险金额（USD）</label><input id="riskAmount" type="number" step="0.01" min="0" placeholder="计划承担的风险"></div><div class="field"><label>纪律执行（1–5）</label><select id="discipline"><option value="">未评分</option><option value="1">1 · 严重偏离计划</option><option value="2">2 · 多处违规</option><option value="3">3 · 基本执行</option><option value="4">4 · 执行良好</option><option value="5">5 · 严格执行</option></select></div>
+<div class="field span2"><label>标签（用逗号分隔）</label><input id="tags" placeholder="例如：追单, 吸收, 流动性扫单"></div>
+<div class="field span2"><label>进场逻辑 / 市场背景</label><textarea id="thesis" placeholder="为什么进场？当时看到什么订单流、结构或关键价位？"></textarea></div>
+<div class="field span2"><label>执行复盘</label><textarea id="review" placeholder="入场、止损、减仓、出场是否按计划执行？"></textarea></div>
+<div class="field span2"><label>心得与改进计划</label><textarea id="lesson" placeholder="这笔交易学到了什么？下次具体改变什么？"></textarea></div>
+</div><div class="actions"><button type="button" id="cancelTrade">取消</button><button class="primary" type="submit">保存交易</button></div></form></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const STORAGE='trading-journal-v1';
+let trades=JSON.parse(localStorage.getItem(STORAGE)||'[]');
+let prefs=JSON.parse(localStorage.getItem('trading-journal-prefs')||'{"startingBalance":1000,"dailyRiskLimit":55}');
+let supabase=null, cloudUser=null;
+const fmt=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n)||0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pnlClass=n=>Number(n)>=0?'positive':'negative';
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2600)}
+function persist(){localStorage.setItem(STORAGE,JSON.stringify(trades));render()}
+function sorted(){return [...trades].sort((a,b)=>(b.date+' '+(b.time||'' )).localeCompare(a.date+' '+(a.time||'')))}
+function tableHTML(rows,showActions=true){if(!rows.length)return '<div class="empty">还没有交易记录。点击“新增交易”开始记录。</div>';return `<table><thead><tr><th>日期 / 时间</th><th>品种</th><th>方向</th><th>策略</th><th>净盈亏</th><th>纪律</th><th>标签</th>${showActions?'<th>操作</th>':''}</tr></thead><tbody>${rows.map(t=>`<tr><td>${esc(t.date)}<div class="small">${esc(t.time||'')}</div></td><td><b>${esc(t.symbol)}</b></td><td>${esc(t.direction)}</td><td>${esc(t.strategy||'—')}</td><td class="${pnlClass(t.pnl)}">${fmt(t.pnl)}</td><td>${t.discipline?`${esc(t.discipline)}/5`:'—'}</td><td>${esc(t.tags||'—')}</td>${showActions?`<td><button data-edit="${esc(t.id)}">编辑</button> <button class="danger" data-delete="${esc(t.id)}">删除</button></td>`:''}</tr>`).join('')}</tbody></table>`}
+function calc(){const asc=[...trades].sort((a,b)=>(a.date+' '+(a.time||'')).localeCompare(b.date+' '+(b.time||'')));const pnls=asc.map(t=>Number(t.pnl)||0),sum=pnls.reduce((a,b)=>a+b,0),wins=pnls.filter(x=>x>0),losses=pnls.filter(x=>x<0),grossWin=wins.reduce((a,b)=>a+b,0),grossLoss=Math.abs(losses.reduce((a,b)=>a+b,0));let peak=Number(prefs.startingBalance)||0,eq=peak,maxDD=0;const curve=[eq];for(const p of pnls){eq+=p;curve.push(eq);peak=Math.max(peak,eq);maxDD=Math.max(maxDD,peak-eq)}let streak=0;for(let i=pnls.length-1;i>=0&&pnls[i]>0;i--)streak++;const today=new Date().toISOString().slice(0,10),todayPnl=trades.filter(t=>t.date===today).reduce((s,t)=>s+(Number(t.pnl)||0),0),used=Math.max(0,-todayPnl),limit=Number(prefs.dailyRiskLimit)||0,remain=Math.max(0,limit-used);return {asc,pnls,sum,wins,losses,grossWin,grossLoss,curve,maxDD,streak,todayPnl,used,limit,remain,winRate:trades.length?wins.length/trades.length*100:0,avgWin:wins.length?grossWin/wins.length:0,avgLoss:losses.length?losses.reduce((a,b)=>a+b,0)/losses.length:0,pf:grossLoss?grossWin/grossLoss:(grossWin?'∞':'—')}}
+function drawChart(values){const c=$('equityChart'),dpr=window.devicePixelRatio||1,w=c.clientWidth||600,h=c.clientHeight||255;c.width=w*dpr;c.height=h*dpr;const ctx=c.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);const pad={l:42,r:10,t:14,b:25},min=Math.min(...values),max=Math.max(...values),range=max-min||1;ctx.font='10px system-ui';for(let i=0;i<5;i++){const y=pad.t+(h-pad.t-pad.b)*i/4;ctx.strokeStyle='#202a36';ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillStyle='#718198';ctx.fillText(fmt(max-range*i/4).replace('$',''),2,y+3)}const pts=values.map((v,i)=>({x:pad.l+(w-pad.l-pad.r)*(values.length<=1?0:i/(values.length-1)),y:pad.t+(h-pad.t-pad.b)*(max-v)/range}));if(pts.length>1){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#6194ff';ctx.lineWidth=2;ctx.stroke();ctx.lineTo(pts[pts.length-1].x,h-pad.b);ctx.lineTo(pts[0].x,h-pad.b);ctx.closePath();const g=ctx.createLinearGradient(0,pad.t,0,h-pad.b);g.addColorStop(0,'rgba(97,148,255,.22)');g.addColorStop(1,'rgba(97,148,255,0)');ctx.fillStyle=g;ctx.fill()}else{ctx.fillStyle='#718198';ctx.fillText('记录交易后显示权益曲线',pad.l+10,h/2)}}
+function setText(id,v){$(id).textContent=v}
+function renderBars(id,field){const groups={};trades.forEach(t=>{const k=t[field]||'未分类';groups[k]=(groups[k]||0)+(Number(t.pnl)||0)});const arr=Object.entries(groups).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]));if(!arr.length){$(id).innerHTML='<div class="empty">暂无数据</div>';return}const max=Math.max(...arr.map(x=>Math.abs(x[1])),1);$(id).innerHTML=arr.map(([k,v])=>`<div class="barrow"><span>${esc(k)}</span><div class="bartrack"><div class="barfill" style="width:${Math.max(2,Math.abs(v)/max*100)}%;background:${v<0?'#ff4f70':'#19d3a2'}"></div></div><strong class="${pnlClass(v)}" style="text-align:right">${fmt(v)}</strong></div>`).join('')}
+function render(){const c=calc(),start=Number(prefs.startingBalance)||0;setText('equity',fmt(start+c.sum));setText('totalPnl',fmt(c.sum));$('totalPnl').className='value '+pnlClass(c.sum);setText('returnPct',(start?c.sum/start*100:0).toFixed(1)+'%');$('returnPct').className='value '+pnlClass(c.sum);setText('maxDd','-'+fmt(c.maxDD).replace('-',''));setText('tradeCount',trades.length);setText('winRate',c.winRate.toFixed(1)+'%');setText('avgWin',fmt(c.avgWin));setText('avgLoss',fmt(c.avgLoss));setText('pf',String(c.pf));setText('streak',c.streak+' 笔');setText('todayPnl',fmt(c.todayPnl));$('todayPnl').className=c.todayPnl>=0?'positive':'negative';setText('dailyLimit',fmt(c.limit));setText('riskUsed',fmt(c.used));setText('riskRemain',fmt(c.remain));setText('riskRemainPct',(c.limit?Math.max(0,c.remain/c.limit*100):0).toFixed(0)+'%');$('riskBar').style.height=(c.limit?Math.max(0,c.remain/c.limit*100):0)+'%';$('riskBar').style.background=c.remain<=0?'#ff4f70':'#1eae8c';$('riskStatus').textContent=c.remain<=0?'已达限额':c.used?'已使用':'正常';$('riskStatus').className='tag'+(c.remain<=0?' red':'');setText('aPnl',fmt(c.sum));setText('aAvg',fmt(trades.length?c.sum/trades.length:0));setText('aRatio',c.avgLoss? (c.avgWin/Math.abs(c.avgLoss)).toFixed(2)+' : 1':'—');const ds=trades.filter(t=>t.discipline).map(t=>Number(t.discipline));setText('aDiscipline',ds.length?(ds.reduce((a,b)=>a+b,0)/ds.length).toFixed(1)+'/5':'—');drawChart([start,...c.curve.slice(1)]);$('recentTable').innerHTML=tableHTML(sorted().slice(0,5));$('tradesTable').innerHTML=tableHTML(filterTrades());renderBars('symbolBars','symbol');renderBars('strategyBars','strategy');const tags={};trades.forEach(t=>(t.tags||'').split(',').map(x=>x.trim()).filter(Boolean).forEach(x=>tags[x]=(tags[x]||0)+1));$('reviewSummary').innerHTML=trades.length?`已记录 <b>${trades.length}</b> 笔交易；填写了复盘的交易 <b>${trades.filter(t=>t.review||t.lesson).length}</b> 笔。常见标签：${Object.entries(tags).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`<span class="tag">${esc(k)} · ${v}</span>`).join(' ')||'暂无标签'}。纪律平均分 ${ds.length?(ds.reduce((a,b)=>a+b,0)/ds.length).toFixed(1)+'/5':'尚未评分'}。`:'录入交易并填写复盘后，这里会汇总常见标签和纪律执行情况。'}
+function filterTrades(){const q=($('searchTrades')?.value||'').toLowerCase(),sym=$('filterSymbol')?.value||'';return sorted().filter(t=>(!sym||t.symbol===sym)&&(!q||[t.symbol,t.strategy,t.tags,t.thesis,t.review,t.lesson].join(' ').toLowerCase().includes(q)))}
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(name==='trades')$('tradesTable').innerHTML=tableHTML(filterTrades());window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+function openModal(t){$('tradeForm').reset();$('tradeId').value=t?.id||'';$('modalTitle').textContent=t?'编辑交易':'新增交易';$('tradeDate').value=t?.date||new Date().toISOString().slice(0,10);$('tradeTime').value=t?.time||'09:30';$('symbol').value=t?.symbol||'NQ';$('direction').value=t?.direction||'多';$('entryPrice').value=t?.entryPrice??'';$('exitPrice').value=t?.exitPrice??'';$('quantity').value=t?.quantity??1;$('pnl').value=t?.pnl??'';$('stopLoss').value=t?.stopLoss??'';$('takeProfit').value=t?.takeProfit??'';$('strategy').value=t?.strategy||'订单流';$('session').value=t?.session||'美盘';$('riskAmount').value=t?.riskAmount??'';$('discipline').value=t?.discipline??'';$('tags').value=t?.tags||'';$('thesis').value=t?.thesis||'';$('review').value=t?.review||'';$('lesson').value=t?.lesson||'';$('tradeModal').classList.add('open')}
+function closeModal(){$('tradeModal').classList.remove('open')}
+$('newTradeBtn').onclick=$('newTradeBtn2').onclick=()=>openModal();$('closeModal').onclick=$('cancelTrade').onclick=closeModal;$('tradeModal').addEventListener('click',e=>{if(e.target===$('tradeModal'))closeModal()});
+$('tradeForm').addEventListener('submit',e=>{e.preventDefault();const id=$('tradeId').value||crypto.randomUUID();const t={id,date:$('tradeDate').value,time:$('tradeTime').value,symbol:$('symbol').value,direction:$('direction').value,entryPrice:$('entryPrice').value,exitPrice:$('exitPrice').value,quantity:$('quantity').value,pnl:Number($('pnl').value),stopLoss:$('stopLoss').value,takeProfit:$('takeProfit').value,strategy:$('strategy').value,session:$('session').value,riskAmount:$('riskAmount').value,discipline:$('discipline').value,tags:$('tags').value,thesis:$('thesis').value,review:$('review').value,lesson:$('lesson').value,updatedAt:new Date().toISOString()};const i=trades.findIndex(x=>x.id===id);if(i>=0)trades[i]=t;else trades.push(t);persist();closeModal();toast('交易已保存');if(supabase&&cloudUser)syncToCloud()});
+document.addEventListener('click',e=>{const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');if(edit){const t=trades.find(x=>x.id===edit.dataset.edit);if(t)openModal(t)}if(del&&confirm('确定删除这笔交易？')){trades=trades.filter(x=>x.id!==del.dataset.delete);persist();if(supabase&&cloudUser)syncToCloud();toast('交易已删除')}});
+$('searchTrades').addEventListener('input',()=> $('tradesTable').innerHTML=tableHTML(filterTrades()));$('filterSymbol').addEventListener('change',()=> $('tradesTable').innerHTML=tableHTML(filterTrades()));
+function exportCSV(){const fields=['date','time','symbol','direction','entryPrice','exitPrice','quantity','pnl','stopLoss','takeProfit','strategy','session','riskAmount','discipline','tags','thesis','review','lesson'];const csv=[fields.join(','),...trades.map(t=>fields.map(k=>'"'+String(t[k]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='trading-journal.csv';a.click();URL.revokeObjectURL(a.href)}
+$('exportBtn').onclick=$('exportBtn2').onclick=exportCSV;
+$('savePrefs').onclick=()=>{prefs={startingBalance:Math.max(0,Number($('startingBalance').value)||0),dailyRiskLimit:Math.max(0,Number($('dailyRiskLimit').value)||0)};localStorage.setItem('trading-journal-prefs',JSON.stringify(prefs));render();toast('设置已保存')};
+$('clearLocal').onclick=()=>{if(confirm('确定清空当前浏览器中的所有交易记录？建议先导出 CSV 备份。')){trades=[];persist();toast('本地记录已清空')}};
+$('startingBalance').value=prefs.startingBalance;$('dailyRiskLimit').value=prefs.dailyRiskLimit;
+async function loadSupabase(){if(!window.supabaseLib)return null;const url=localStorage.getItem('tj-sb-url'),key=localStorage.getItem('tj-sb-key');if(url&&key){$('sbUrl').value=url;$('sbKey').value=key;supabase=window.supabaseLib.createClient(url,key)}return supabase}
+function cloudMsg(s){$('cloudState').textContent=s}
+$('connectCloud').onclick=async()=>{const url=$('sbUrl').value.trim(),key=$('sbKey').value.trim(),email=$('sbEmail').value.trim(),password=$('sbPassword').value;if(!url||!key||!email||!password){cloudMsg('请填写 Project URL、key、邮箱和密码。');return}try{localStorage.setItem('tj-sb-url',url);localStorage.setItem('tj-sb-key',key);if(!window.supabaseLib){cloudMsg('正在加载 Supabase SDK，请检查网络后刷新页面。');return}supabase=window.supabaseLib.createClient(url,key);let r=await supabase.auth.signInWithPassword({email,password});if(r.error){const sign=await supabase.auth.signUp({email,password});if(sign.error)throw sign.error;if(!sign.data.session){cloudMsg('注册请求已发送。请先到邮箱确认账号，再返回登录。');return}r=sign}cloudUser=r.data.user;if(!cloudUser){const u=await supabase.auth.getUser();cloudUser=u.data.user}cloudMsg('云端已登录：'+(cloudUser?.email||email)+'。正在读取交易记录…');$('cloudNotice').textContent='已连接 Supabase 云端。新增和编辑交易会尝试同步；请定期导出 CSV 备份。';await syncFromCloud()}catch(err){cloudMsg('连接失败：'+(err.message||String(err)))}};
+async function syncToCloud(){if(!supabase||!cloudUser){cloudMsg('尚未登录云端，记录目前只保存在本地。');return}try{const rows=trades.map(t=>({user_id:cloudUser.id,trade_id:t.id,trade_data:t,updated_at:t.updatedAt||new Date().toISOString()}));const r=await supabase.from('trades').upsert(rows,{onConflict:'user_id,trade_id'});if(r.error)throw r.error;cloudMsg('同步完成 · '+new Date().toLocaleString())}catch(e){cloudMsg('同步失败：'+e.message+'。请检查 SQL 表结构和 RLS。')}}
+async function syncFromCloud(){if(!supabase||!cloudUser)return;try{const r=await supabase.from('trades').select('trade_data').eq('user_id',cloudUser.id);if(r.error)throw r.error;const cloud=(r.data||[]).map(x=>x.trade_data).filter(Boolean),map=new Map(trades.map(t=>[t.id,t]));cloud.forEach(t=>{const old=map.get(t.id);if(!old||String(t.updatedAt||'')>String(old.updatedAt||''))map.set(t.id,t)});trades=[...map.values()];persist();await syncToCloud();toast('云端记录已合并')}catch(e){cloudMsg('读取云端失败：'+e.message+'。请先执行项目中的 supabase-schema.sql。')}}
+$('syncCloud').onclick=async()=>{if(!supabase){await loadSupabase()}if(!supabase){cloudMsg('请先连接并登录云端。');return}const u=await supabase.auth.getUser();cloudUser=u.data.user;if(!cloudUser){cloudMsg('请先登录。');return}await syncFromCloud()};
+$('logoutCloud').onclick=async()=>{if(supabase)await supabase.auth.signOut();supabase=null;cloudUser=null;cloudMsg('已退出云端。当前设备的本地记录仍保留。');$('cloudNotice').textContent='当前为本地预览模式。配置 Supabase 后即可启用账号登录与云端同步；本地记录不会自动上传。'};
+window.addEventListener('resize',()=>drawChart([Number(prefs.startingBalance)||0,...calc().curve.slice(1)]));
+const sdk=document.createElement('script');sdk.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';sdk.onload=()=>{window.supabaseLib=window.supabase;sdk.remove();loadSupabase()};sdk.onerror=()=>{$('cloudState').textContent='Supabase SDK 加载失败。在线云同步需要网络连接。'};document.head.appendChild(sdk);
+render();
+</script>
+</body>
+</html>
